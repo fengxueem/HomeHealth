@@ -42,6 +42,7 @@ class AdminSignupForm extends Model
             
             ['password', 'required'],
             ['password', 'string', 'min' => 6],
+            ['password', 'string', 'max' => 20],
             
             ['password_repeat', 'required'],
             ['password_repeat', 'compare', 'compareAttribute' => 'password', 'message' => '两次密码输入不一致.'],
