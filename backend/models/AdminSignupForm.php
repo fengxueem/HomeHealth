@@ -8,7 +8,7 @@ use common\models\Admin;
 /**
  * Signup form
  */
-class SignupForm extends Model
+class AdminSignupForm extends Model
 {
     public $username;
     public $nickname;
