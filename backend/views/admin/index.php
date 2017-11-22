@@ -22,18 +22,32 @@ $this->params['breadcrumbs'][] = $this->title;
         'dataProvider' => $dataProvider,
         'filterModel' => $searchModel,
         'columns' => [
-            ['class' => 'yii\grid\SerialColumn'],
-
-            'id',
             'username',
             'nickname',
             'email:email',
             'phone',
-            // 'auth_key',
-            // 'password_hash',
-            // 'password_reset_token',
-
-            ['class' => 'yii\grid\ActionColumn'],
+            [
+                'class' => 'yii\grid\ActionColumn',
+                'template' => '{view}{update}{resetpwd}{privilege}',
+                'buttons' => [
+                    'resetpwd' => function($url, $model, $key) {
+                        $options = [
+                            'title' => Yii::t('yii', 'Reset Password'),
+                            'aria-label' => Yii::t('yii', 'Reset Password'),
+                            'data-pjax' => '0', // disable pjax
+                        ];
+                        return Html::a('<span class="glyphicon glyphicon-edit"></span>', $url, $options);
+                    },
+                    'privilege' => function($url, $model, $key) {
+                        $options = [
+                            'title' => Yii::t('yii', 'Access Control'),
+                            'aria-label' => Yii::t('yii', 'Access Control'),
+                            'data-pjax' => '0', // disable pjax
+                        ];
+                        return Html::a('<span class="glyphicon glyphicon-lock"></span>', $url, $options);
+                    },
+                ],
+            ],
         ],
     ]); ?>
 </div>

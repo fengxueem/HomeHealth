@@ -4,6 +4,7 @@ namespace backend\controllers;
 use Yii;
 use common\models\Admin;
 use common\models\AdminSearch;
+use common\models\ResetpwdForm;
 use yii\web\Controller;
 use yii\web\NotFoundHttpException;
 use yii\filters\VerbFilter;
@@ -102,6 +103,30 @@ class AdminController extends Controller
         } else {
             return $this->render('update', [
                 'model' => $model
+            ]);
+        }
+    }
+    
+    /**
+     * Resets an existing Admin password.
+     * If reset is successful, the browser will be redirected to the 'index' page.
+     *
+     * @param integer $id
+     * @return mixed
+     */
+    public function actionResetpwd($id)
+    {
+        $form = new ResetpwdForm();
+        $model = $this->findModel($id);
+        
+        if ($form->load(Yii::$app->request->post()) && $user = $form->resetPassword($id)) {
+            return $this->redirect([
+                'index'
+            ]);
+        } else {
+            return $this->render('resetPassword', [
+                'resetform' => $form,
+                'model' => $model,
             ]);
         }
     }
