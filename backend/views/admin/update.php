@@ -19,8 +19,6 @@ $this->params['breadcrumbs'][] = 'Update';
 
     <?php $form = ActiveForm::begin(); ?>
 
-    <?= $form->field($model, 'username')->textInput(['maxlength' => true]) ?>
-
     <?= $form->field($model, 'nickname')->textInput(['maxlength' => true]) ?>
 
     <?= $form->field($model, 'email')->textInput(['maxlength' => true]) ?>
