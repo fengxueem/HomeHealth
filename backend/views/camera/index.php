@@ -15,22 +15,30 @@ $this->params['breadcrumbs'][] = $this->title;
     <h1><?= Html::encode($this->title) ?></h1>
     <?php // echo $this->render('_search', ['model' => $searchModel]); ?>
 
-    <p>
-        <?= Html::a('Create Camera', ['create'], ['class' => 'btn btn-success']) ?>
-    </p>
     <?= GridView::widget([
         'dataProvider' => $dataProvider,
         'filterModel' => $searchModel,
         'columns' => [
-            ['class' => 'yii\grid\SerialColumn'],
-
-            'id',
             'url:url',
             'nickname',
-            'password',
-            'owner_id',
-
-            ['class' => 'yii\grid\ActionColumn'],
+            [
+                'attribute' => 'owner_id',
+                'value' => 'owner.nickname',
+            ],
+            [
+                'class' => 'yii\grid\ActionColumn',
+                'template' => '{updateviewers}{delete}',
+                'buttons' => [
+                    'updateviewers' => function($url, $model, $key) {
+                        $options = [
+                            'title' => Yii::t('yii', 'Update Viewers'),
+                            'aria-label' => Yii::t('yii', 'Update Viewers'),
+                            'data-pjax' => '0', // disable pjax
+                        ];
+                        return Html::a('<span class="glyphicon glyphicon-pencil"></span>', $url, $options);
+                    },
+                ],
+            ],
         ],
     ]); ?>
 </div>
