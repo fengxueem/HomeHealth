@@ -106,6 +106,20 @@ class User extends ActiveRecord implements IdentityInterface
     {
         return $this->hasMany(Camera::className(), ['owner_id' => 'id']);
     }
+    
+    /**
+     * Change user status, from active to deleted or from deleted to active
+     */
+    public function flipStatus() {
+        $this->status = $this->status == self::STATUS_ACTIVE ? self::STATUS_DELETED : self::STATUS_ACTIVE;
+    }
+    
+    /**
+     * Get user status string
+     */
+    public function getStatusStr() {
+        return $this->status == self::STATUS_ACTIVE ? 'Active' : 'Deleted';
+    }
 
     /**
      * @inheritdoc
@@ -204,6 +218,16 @@ class User extends ActiveRecord implements IdentityInterface
     public function setPassword($password)
     {
         $this->password_hash = Yii::$app->security->generatePasswordHash($password);
+    }
+    
+    /**
+     * Set default password, 666666
+     *
+     * @param string $password
+     */
+    public function setDefaultPassword()
+    {
+        $this->setPassword("666666");
     }
 
     /**

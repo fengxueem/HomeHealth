@@ -58,21 +58,21 @@ class UserController extends Controller
 
     /**
      * Creates a new User model.
-     * If creation is successful, the browser will be redirected to the 'view' page.
+     * The creation process is handled by frontend signup page
      * @return mixed
      */
-    public function actionCreate()
-    {
-        $model = new User();
+//     public function actionCreate()
+//     {
+//         $model = new User();
 
-        if ($model->load(Yii::$app->request->post()) && $model->save()) {
-            return $this->redirect(['view', 'id' => $model->id]);
-        } else {
-            return $this->render('create', [
-                'model' => $model,
-            ]);
-        }
-    }
+//         if ($model->load(Yii::$app->request->post()) && $model->save()) {
+//             return $this->redirect(['view', 'id' => $model->id]);
+//         } else {
+//             return $this->render('create', [
+//                 'model' => $model,
+//             ]);
+//         }
+//     }
 
     /**
      * Updates an existing User model.
@@ -103,6 +103,33 @@ class UserController extends Controller
     {
         $this->findModel($id)->delete();
 
+        return $this->redirect(['index']);
+    }
+    
+    /**
+     * Reset password to a default one, which is '666666'
+     * @param integer $id
+     * @return mixed
+     */
+    public function actionResetpwd($id)
+    {
+        $user = $this->findModel($id);
+        $user->setDefaultPassword();
+        $user->save();
+        
+        return $this->redirect(['index']);
+    }
+    
+    /**
+     * Activate of deactivate a user
+     * @param integer $id
+     * @return mixed
+     */
+    public function actionVerify($id)
+    {
+        $user = $this->findModel($id);
+        $user->flipStatus();
+        $user->save();
         return $this->redirect(['index']);
     }
 
