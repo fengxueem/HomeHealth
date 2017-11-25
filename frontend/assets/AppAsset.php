@@ -20,4 +20,18 @@ class AppAsset extends AssetBundle
         'yii\web\YiiAsset',
         'yii\bootstrap\BootstrapAsset',
     ];
+    
+    /** 
+     * load needed js file to a webpage
+     */
+    public static function addJS($view, $js) {
+        $view->registerJsFile($js, [AppAsset::className(), 'depends' => 'backend\assets\AppAsset']);
+    }
+    
+    /**
+     * load needed css file to a webpage
+     */
+    public static function addCSS($view, $css) {
+        $view->registerCssFile($css, [AppAsset::className(), 'depends' => 'backend\assets\AppAsset']);
+    }
 }
