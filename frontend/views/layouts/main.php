@@ -10,6 +10,7 @@ use yii\widgets\Breadcrumbs;
 use frontend\assets\AppAsset;
 use common\models\Developer;
 use common\widgets\Alert;
+use yii\helpers\Url;
 
 AppAsset::register($this);
 ?>
@@ -41,17 +42,30 @@ AppAsset::register($this);
         $menuItems[] = ['label' => 'Login', 'url' => ['/site/login']];
     } else {
         $menuItems = [
-            ['label' => 'Camera', 'url' => ['/site/camera']],
-            ['label' => 'Body Data', 'url' => ['/site/bodydata']],
+            ['label' => 'Camera', 'url' => ['/camera/index']],
+            ['label' => 'Body Data', 'url' => ['/bodydata/index']],
         ];
-        $menuItems[] = '<li>'
-            . Html::beginForm(['/site/logout'], 'post')
-            . Html::submitButton(
-                'Logout (' . Yii::$app->user->identity->username . ')',
-                ['class' => 'btn btn-link logout']
-            )
-            . Html::endForm()
-            . '</li>';
+//         $menuItems[] = '<li>'
+//             . Html::beginForm(['/site/logout'], 'post')
+//             . Html::submitButton(
+//                 'Logout (' . Yii::$app->user->identity->username . ')',
+//                 ['class' => 'btn btn-link logout']
+//             )
+//             . Html::endForm()
+//             . '</li>';
+        $menuItems[] = '<li class="dropdown">
+                            <a class="dropdown-toggle" href="#" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">' . Yii::$app->user->identity->username . '
+                                <span class="caret"></span>
+                            </a>
+                            <ul class="dropdown-menu">' 
+                                .
+                                Html::a("", "#", ['class' => 'dropdown-toggle', 'data-toggle' => 'dropdown', 'role' => 'button', 'aria-haspopup' => 'true', 'aria-expanded' => 'false'])
+                                . 
+                                '<li>' . Html::a(Yii::t('yii', 'Setting'), Url::to(['/user/index'])) . '</li>
+                                <li class="divider" role="separator"></li>
+                                <li>' . Html::a(Yii::t('yii', 'Logout'), Url::to(['/site/logout'])) . '</li>
+                            </ul>
+                        </li>';
     }
     echo Nav::widget([
         'options' => ['class' => 'navbar-nav navbar-right'],

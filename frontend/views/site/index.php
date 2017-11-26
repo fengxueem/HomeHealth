@@ -1,8 +1,10 @@
 <?php
 use frontend\assets\AppAsset;
+use yii\helpers\Html;
+use yii\helpers\Url;
 
 /* @var $this yii\web\View */
-$this->title = 'My Yii Application';
+$this->title = 'Welcome to Home Health';
 AppAsset::register($this);
 AppAsset::addCSS($this, Yii::$app->request->baseUrl . "/css/index.css");
 ?>
@@ -11,8 +13,7 @@ AppAsset::addCSS($this, Yii::$app->request->baseUrl . "/css/index.css");
 		<div class="row">
 			<div class="col-xs-12 col-md-5">
 				<div class="camera">  <!-- flexible container-->
-					<a class="btn btn-camera"
-						href="/homehealth/frontend/web/index.php?r=site%2Fcamera"> Camera</a>
+					<?= Html::a(Yii::t('yii', 'Camera'), Url::to(['/camera/index']), ['class' => 'btn btn-camera'])?>
 				</div>
 			</div>
 			<div class="col-xs-12 col-md-2">
@@ -20,9 +21,7 @@ AppAsset::addCSS($this, Yii::$app->request->baseUrl . "/css/index.css");
 			</div>
 			<div class="col-xs-12 col-md-5">
 				<div class="body-data"> <!-- flexible container-->
-					<a class="btn btn-body-data"
-						href="/homehealth/frontend/web/index.php?r=site%2Fbodydata">Body
-						Data</a>
+					<?= Html::a(Yii::t('yii', 'Body Data'), Url::to(['/bodydata/index']), ['class' => 'btn btn-body-data'])?>
 				</div>
 			</div>
 		</div>
