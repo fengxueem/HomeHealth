@@ -4,6 +4,8 @@ namespace frontend\controllers;
 
 use Yii;
 use common\models\Camera;
+use frontend\models\CreateCamera;
+use frontend\models\MyCamera;
 use yii\web\Controller;
 use yii\web\NotFoundHttpException;
 
@@ -12,14 +14,49 @@ use yii\web\NotFoundHttpException;
  */
 class CameraController extends Controller
 {
-
+    public $layout = 'camera';
     /**
      * Lists all Camera models.
      * @return mixed
      */
-    public function actionIndex()
+    
+    public function actionIndex() {
+        if (!Yii::$app->user->isGuest) {
+            $this->redirect(['mycamera']);
+        } else {
+            $this->redirect(['site/login']);
+        }
+    }
+    
+    public function actionMycamera()
     {
-        return $this->render('index');
+        $searchModel = new MyCamera();
+        $dataProvider = $searchModel->search( Yii::$app->user->identity->getId(),Yii::$app->request->queryParams);
+        
+        return $this->render('myCamera', [
+            'searchModel' => $searchModel,
+            'dataProvider' => $dataProvider,
+        ]);
+    }
+    
+    /**
+     * Creates a new Admin model.
+     * If creation is successful, the browser will be redirected to the 'view' page.
+     *
+     * @return mixed
+     */
+    public function actionCreate()
+    {
+        $model = new CreateCamera();
+        $model->setOwnerId(Yii::$app->user->identity->getId());
+        
+        if ($model->load(Yii::$app->request->post()) && $user = $model->signup()) {
+            return $this->redirect(['mycamera']);
+        } else {
+            return $this->render('create', [
+                'model' => $model
+            ]);
+        }
     }
 
     protected function findModel($id)
