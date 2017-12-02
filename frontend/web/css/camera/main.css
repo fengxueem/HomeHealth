@@ -1,0 +1,51 @@
+.body-content {
+	padding: 70px 20px 15px;
+}
+
+/*
+ * Sidebar
+ */
+.sidebar {
+	overflow-x: hidden;
+	overflow-y: auto;
+	/* Scrollable contents if viewport is shorter than content. */
+	border-right: 1px solid #eee;
+}
+
+.sidebar .nav {
+	margin-bottom: 20px;
+}
+
+.sidebar .nav-item {
+	width: 100%;
+}
+
+.sidebar .nav-item+.nav-item {
+	margin-left: 0;
+}
+
+.sidebar .nav-link {
+	border-radius: 0;
+}
+
+.d-none {
+    display: none!important;
+}
+
+@media ( min-width : 576px) {
+	.d-sm-block {
+		display: block !important;
+	}
+}
+
+.nav-item > a {
+    color: #007bff;
+    text-decoration: none;
+    background-color: transparent;
+    -webkit-text-decoration-skip: objects;
+}	
+
+.nav-item > a.active {
+	color: #fff;
+	background-color: #007bff;
+}

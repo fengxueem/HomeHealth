@@ -6,7 +6,7 @@ use yii\helpers\Url;
 /* @var $this yii\web\View */
 $this->title = 'Welcome to Home Health';
 AppAsset::register($this);
-AppAsset::addCSS($this, Yii::$app->request->baseUrl . "/css/index.css");
+AppAsset::addCSS($this, Yii::$app->request->baseUrl . "/css/site/index.css");
 ?>
 <div class="site-index">
 	<div class="body-content">
@@ -21,7 +21,7 @@ AppAsset::addCSS($this, Yii::$app->request->baseUrl . "/css/index.css");
 			</div>
 			<div class="col-xs-12 col-md-5">
 				<div class="body-data"> <!-- flexible container-->
-					<?= Html::a(Yii::t('yii', 'Body Data'), Url::to(['/bodydata/index']), ['class' => 'btn btn-body-data'])?>
+					<?= Html::a(Yii::t('yii', 'Body Data'), Url::to(['/body-data/index']), ['class' => 'btn btn-body-data'])?>
 				</div>
 			</div>
 		</div>

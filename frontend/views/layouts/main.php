@@ -43,7 +43,7 @@ AppAsset::register($this);
     } else {
         $menuItems = [
             ['label' => 'Camera', 'url' => ['/camera/index']],
-            ['label' => 'Body Data', 'url' => ['/bodydata/index']],
+            ['label' => 'Body Data', 'url' => ['/body-data/index']],
         ];
 //         $menuItems[] = '<li>'
 //             . Html::beginForm(['/site/logout'], 'post')
