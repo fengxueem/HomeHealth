@@ -12,7 +12,7 @@ class AppAsset extends AssetBundle
     public $basePath = '@webroot';
     public $baseUrl = '@web';
     public $css = [
-        'css/site.css',
+        'css/site/site.css',
     ];
     public $js = [
     ];
@@ -25,13 +25,15 @@ class AppAsset extends AssetBundle
      * load needed js file to a webpage
      */
     public static function addJS($view, $js) {
-        $view->registerJsFile($js, [AppAsset::className(), 'depends' => 'backend\assets\AppAsset']);
+        $view->registerJsFile($js, ['depends' => 'frontend\assets\AppAsset']);
     }
     
     /**
      * load needed css file to a webpage
      */
     public static function addCSS($view, $css) {
-        $view->registerCssFile($css, [AppAsset::className(), 'depends' => 'backend\assets\AppAsset']);
+        // the 'depends' option mean that this css file will be added after the css file from 
+        // frontend\assets\AppAsset, which is declared in $css.
+        $view->registerCssFile($css, ['depends' => 'frontend\assets\AppAsset']);
     }
 }
