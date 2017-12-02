@@ -9,7 +9,7 @@ use yii\web\NotFoundHttpException;
 /**
  * CameraController implements the CRUD actions for Camera model.
  */
-class BodydataController extends Controller
+class BodyDataController extends Controller
 {
     
     /**
