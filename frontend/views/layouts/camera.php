@@ -107,16 +107,13 @@ AppAsset::addCSS($this, Yii::$app->request->baseUrl . "/css/camera/main.css");
         <div class="body-content">
 			<div class="row">
 				<div class="col-sm-3 col-md-2">
-					<nav class="d-none d-sm-block sidebar">
+					<nav class="d-sm-block sidebar">
 						<ul class="nav nav-pills flex-column">
 							<li class="nav-item">
 								<?= Html::a(Yii::t('yii', 'My Camera'), ['mycamera'], ['class' => 'nav-link']) ?>
 							</li>
 							<li class="nav-item">
 								<?= Html::a(Yii::t('yii', 'Sharing Camera'), ['otherscamera'], ['class' => 'nav-link']) ?>
-							</li>
-							<li class="nav-item">
-								<?= Html::a(Yii::t('yii', 'Settings'), ['settings'], ['class' => 'nav-link']) ?>
 							</li>
 						</ul>
 					</nav>
