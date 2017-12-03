@@ -6,6 +6,7 @@ use Yii;
 use common\models\Camera;
 use frontend\models\CreateCamera;
 use frontend\models\MyCamera;
+use frontend\models\SharingCamera;
 use yii\web\Controller;
 use yii\web\NotFoundHttpException;
 
@@ -40,8 +41,8 @@ class CameraController extends Controller
     }
     
     /**
-     * Creates a new Admin model.
-     * If creation is successful, the browser will be redirected to the 'view' page.
+     * Creates a new camera model.
+     * If creation is successful, the browser will be redirected to the 'mycamera' page.
      *
      * @return mixed
      */
@@ -59,6 +60,22 @@ class CameraController extends Controller
         }
     }
 
+    /**
+     * Lists all sharing cameras.
+     *
+     * @return mixed
+     */
+    public function actionOtherscamera()
+    {
+        $searchModel = new SharingCamera();
+        $dataProvider = $searchModel->search(Yii::$app->user->identity->getId(),Yii::$app->request->queryParams);
+        
+        return $this->render('othersCamera', [
+            'searchModel' => $searchModel,
+            'dataProvider' => $dataProvider,
+        ]);
+    }
+    
     protected function findModel($id)
     {
         if (($model = Camera::findOne($id)) !== null) {
