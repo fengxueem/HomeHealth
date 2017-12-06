@@ -28,6 +28,7 @@ CREATE TABLE `shared_camera` (
  `user_id` int(10) unsigned NOT NULL,
  `status` int(10) unsigned NOT null,
  `update_time` int(11) unsigned NOT NULL,
+ UNIQUE KEY `camera_id` (`camera_id`,`user_id`),
  KEY `FK_sharing_camera`(`camera_id`),
  KEY `FK_sharing_user` (`user_id`),
  KEY `FK_sharing_status` (`status`),
