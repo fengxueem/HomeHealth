@@ -18,5 +18,19 @@ $this->title = Yii::t('yii', 'My Camera');
             'url:url',
             'nickname',
             'password',
+            [
+                'class' => 'yii\grid\ActionColumn',
+                'template' => '{share}{update}',
+                'buttons' => [
+                    'share' => function($url, $model, $key){
+                        $options = [
+                            'title' => Yii::t('yii', 'Share this camera'),
+                            'aria-label' => Yii::t('yii', 'Share this camera'),
+                            'data-pjax' => '0',
+                        ];
+                        return Html::a('<span class="glyphicon glyphicon-share"></span>', $url, $options);
+                    },
+                ],
+            ],
         ],
     ]); ?>

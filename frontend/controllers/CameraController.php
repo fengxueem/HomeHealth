@@ -7,15 +7,25 @@ use common\models\Camera;
 use frontend\models\CreateCamera;
 use frontend\models\MyCamera;
 use frontend\models\SharingCamera;
+use yii\db\IntegrityException;
 use yii\web\Controller;
 use yii\web\NotFoundHttpException;
+use common\models\UserSearch;
+use common\models\User;
+use common\models\SharedCamera;
+use common\models\SharedCameraStatus;
 
 /**
  * CameraController implements the CRUD actions for Camera model.
  */
 class CameraController extends Controller
 {
+    // disable csrf validation to let post request go through
+    public $enableCsrfValidation = false;
+    
+    // set the layout to be views/layouts/camera.php
     public $layout = 'camera';
+    
     /**
      * Lists all Camera models.
      * @return mixed
@@ -51,7 +61,7 @@ class CameraController extends Controller
         $model = new CreateCamera();
         $model->setOwnerId(Yii::$app->user->identity->getId());
         
-        if ($model->load(Yii::$app->request->post()) && $user = $model->signup()) {
+        if ($model->load(Yii::$app->request->post()) && $camera = $model->signup()) {
             return $this->redirect(['mycamera']);
         } else {
             return $this->render('create', [
@@ -59,7 +69,46 @@ class CameraController extends Controller
             ]);
         }
     }
-
+    
+    public function actionShare($id)
+    {
+        $request = Yii::$app->request;
+        $user = null;
+        $error = '';
+        // $user only exists when a post arrives, it normally should be null.
+        if ($request->isPost) {
+            if ($request->get('targetname') == null) {
+                // don't run a self lookup
+                if (Yii::$app->request->post('username') != Yii::$app->user->identity->username) {
+                    $user = User::findByUsername(Yii::$app->request->post('username'));
+                }
+            } else {
+                // if a username is found in get(),
+                // it means the client does want to share this camera with him.
+                $user = User::findByUsername($request->get('targetname'));
+                if ($user != null) {
+                    $share = new SharedCamera();
+                    $share->camera_id = $id;
+                    $share->user_id = $user->id;
+                    // status 2 means pending
+                    $share->status = 2;
+                    try  {
+                        $share->save();
+                        return $this->redirect(['mycamera']);
+                    } catch (\Exception $e) {
+                        // since (camera_id, user_id) is an unique key in database,
+                        // it's possible to save the same pair more than once,
+                        // we need to catch this integrity exception here.
+                        if ($e instanceof IntegrityException) {
+                            $error = Yii::t('yii', 'Camera is already shared to this user');
+                        }
+                    }
+                }
+            }
+        }
+        return $this->render('share', ['id' => $id, 'model' => $user, 'error' => $error]);
+    }
+    
     /**
      * Lists all sharing cameras.
      *

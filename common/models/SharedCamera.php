@@ -33,7 +33,7 @@ class SharedCamera extends \yii\db\ActiveRecord
     public function rules()
     {
         return [
-            [['camera_id', 'user_id', 'status', 'update_time'], 'required'],
+            [['camera_id', 'user_id', 'status'], 'required'],
             [['camera_id', 'user_id', 'status', 'update_time'], 'integer'],
             [['camera_id'], 'exist', 'skipOnError' => true, 'targetClass' => Camera::className(), 'targetAttribute' => ['camera_id' => 'id']],
             [['status'], 'exist', 'skipOnError' => true, 'targetClass' => SharedCameraStatus::className(), 'targetAttribute' => ['status' => 'id']],
@@ -52,6 +52,15 @@ class SharedCamera extends \yii\db\ActiveRecord
             'status' => 'Status',
             'update_time' => 'Update Time',
         ];
+    }
+    
+    public function beforeSave($insert) {
+        if (parent::beforeSave($insert)) {
+            $this->update_time = time();
+            return true;
+        } else {
+            return false;
+        }
     }
     
     /**
