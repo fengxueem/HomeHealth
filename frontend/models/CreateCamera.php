@@ -22,6 +22,7 @@ class CreateCamera extends Model
     {
         return [
             ['url', 'trim'],
+            ['url', 'url', 'defaultScheme' => 'http'],
             ['url', 'required'],
             ['url', 'unique', 'targetClass' => '\common\models\Camera', 'message' => '摄像头已注册.'],
             ['url', 'string', 'min' => 2, 'max' => 255],

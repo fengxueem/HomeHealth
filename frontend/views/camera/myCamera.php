@@ -15,12 +15,16 @@ $this->title = Yii::t('yii', 'My Camera');
         'dataProvider' => $dataProvider,
         'filterModel' => $searchModel,
         'columns' => [
-            'url:url',
-            'nickname',
+            [
+                'attribute' => 'nickname',
+                'content' => function ($model, $key, $index, $column) {
+                    return Html::a(Yii::t('yii', $model->nickname), $model->url, ['target' => '_blank']);
+                },
+            ],
             'password',
             [
                 'class' => 'yii\grid\ActionColumn',
-                'template' => '{share}{update}{delete}',
+                'template' => '{share} {update} {delete}',
                 'buttons' => [
                     'share' => function($url, $model, $key){
                         $options = [
