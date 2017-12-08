@@ -15,6 +15,7 @@ class SignupForm extends Model
     public $phone;
     public $password;
     public $password_repeat;
+    public $verifyCode;
 
     /**
      * @inheritdoc
@@ -46,6 +47,9 @@ class SignupForm extends Model
             
             ['password_repeat', 'required'],
             ['password_repeat', 'compare', 'compareAttribute' => 'password', 'message' => 'Passwords are not consistent.'],
+            
+            ['verifyCode', 'required'],
+            ['verifyCode', 'captcha'],
         ];
     }
 

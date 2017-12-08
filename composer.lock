@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#composer-lock-the-lock-file",
         "This file is @generated automatically"
     ],
-    "content-hash": "2099dd55ad0ea56853b9f025aa8e2928",
+    "content-hash": "013be619856566431a456bfd3b3b1755",
     "packages": [
         {
             "name": "bower-asset/bootstrap",
@@ -313,6 +313,52 @@
                 "html"
             ],
             "time": "2017-06-03T02:28:16+00:00"
+        },
+        {
+            "name": "mdmsoft/yii2-captcha",
+            "version": "1.1",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/mdmsoft/yii2-captcha.git",
+                "reference": "033588c1e7ccfdccb7f25bfa2fb16bf260d84d1c"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/mdmsoft/yii2-captcha/zipball/033588c1e7ccfdccb7f25bfa2fb16bf260d84d1c",
+                "reference": "033588c1e7ccfdccb7f25bfa2fb16bf260d84d1c",
+                "shasum": ""
+            },
+            "require": {
+                "yiisoft/yii2": "~2.0"
+            },
+            "type": "yii2-extension",
+            "extra": {
+                "branch-alias": {
+                    "dev-master": "1.x-dev"
+                }
+            },
+            "autoload": {
+                "psr-4": {
+                    "mdm\\captcha\\": ""
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "BSD-3-Clause"
+            ],
+            "authors": [
+                {
+                    "name": "Misbahul D Munir",
+                    "email": "misbahuldmunir@gmail.com"
+                }
+            ],
+            "description": "Captcha with math equation",
+            "keywords": [
+                "captcha",
+                "math",
+                "yii2"
+            ],
+            "time": "2016-02-10T06:09:36+00:00"
         },
         {
             "name": "swiftmailer/swiftmailer",
