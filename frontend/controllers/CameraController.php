@@ -7,13 +7,12 @@ use common\models\Camera;
 use frontend\models\CreateCamera;
 use frontend\models\MyCamera;
 use frontend\models\SharingCamera;
+use frontend\models\FindUserForm;
 use yii\db\IntegrityException;
 use yii\web\Controller;
 use yii\web\NotFoundHttpException;
-use common\models\UserSearch;
 use common\models\User;
 use common\models\SharedCamera;
-use common\models\SharedCameraStatus;
 
 /**
  * CameraController implements the CRUD actions for Camera model.
@@ -73,24 +72,25 @@ class CameraController extends Controller
     public function actionShare($id)
     {
         $request = Yii::$app->request;
+        $findUser = new FindUserForm();
         $user = null;
         $error = '';
         // $user only exists when a post arrives, it normally should be null.
         if ($request->isPost) {
             if ($request->get('targetname') == null) {
                 // don't run a self lookup
-                if (Yii::$app->request->post('username') != Yii::$app->user->identity->username) {
-                    $user = User::findByUsername(Yii::$app->request->post('username'));
+                if ($findUser->load(Yii::$app->request->post()) && $findUser->validate() && $findUser->targetname != Yii::$app->user->identity->username) {
+                    $user = User::findByUsername($findUser->targetname);
                 }
             } else {
-                // if a username is found in get(),
+                // if a targetname is found in get(),
                 // it means the client does want to share this camera with him.
                 $user = User::findByUsername($request->get('targetname'));
                 if ($user != null) {
                     $share = new SharedCamera();
                     $share->camera_id = $id;
                     $share->user_id = $user->id;
-                    // status 2 means pending
+                    // 2 means pending status
                     $share->status = 2;
                     try  {
                         $share->save();
@@ -106,7 +106,12 @@ class CameraController extends Controller
                 }
             }
         }
-        return $this->render('share', ['id' => $id, 'model' => $user, 'error' => $error]);
+        return $this->render('share', [
+            'id' => $id,
+            'model' => $user,
+            'findUser' => $findUser,
+            'error' => $error,
+        ]);
     }
     
     /**

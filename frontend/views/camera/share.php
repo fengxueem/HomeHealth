@@ -16,12 +16,18 @@ $this->title = Yii::t('yii', 'Share Camera');
 
     <h1><?= Html::encode($this->title) ?></h1>
     <div class="user-search">
-    	<form action="<?= Yii::$app->urlManager->createUrl(['camera/share','id'=>$id])?>" method="post" id="findUser">
-			<div class="form-group">
-				<input type="text" class="form-control" id="username" name="username" placeholder="<?=Yii::t('yii', 'Find a user by user name') ?>">
-			</div>
-			<button type="submit" class="btn btn-default"><?=Yii::t('yii', 'Search') ?></button>
-		</form>
+    	<?php $form = ActiveForm::begin([
+    	    'method' => 'post',
+    	    'action' => ['camera/share', 'id'=>$id],
+    	]); ?>
+        
+            <?= $form->field($findUser, 'targetname') ?>
+        
+            <div class="form-group">
+                <?= Html::submitButton('Submit', ['class' => 'btn btn-primary']) ?>
+            </div>
+        
+        <?php ActiveForm::end(); ?>
     </div>
 	<br>
 	<div class="user-info">
