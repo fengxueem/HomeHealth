@@ -20,7 +20,7 @@ $this->title = Yii::t('yii', 'My Camera');
             'password',
             [
                 'class' => 'yii\grid\ActionColumn',
-                'template' => '{share}{update}',
+                'template' => '{share}{update}{delete}',
                 'buttons' => [
                     'share' => function($url, $model, $key){
                         $options = [

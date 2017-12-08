@@ -9,6 +9,7 @@ use frontend\models\MyCamera;
 use frontend\models\SharingCamera;
 use frontend\models\FindUserForm;
 use yii\db\IntegrityException;
+use yii\filters\VerbFilter;
 use yii\web\Controller;
 use yii\web\NotFoundHttpException;
 use common\models\User;
@@ -26,15 +27,64 @@ class CameraController extends Controller
     public $layout = 'camera';
     
     /**
+     * @inheritdoc
+     */
+    public function behaviors()
+    {
+        return [
+            'verbs' => [
+                'class' => VerbFilter::className(),
+                'actions' => [
+                    'delete' => [
+                        'POST'
+                    ]
+                ]
+            ]
+        ];
+    }
+    
+    /**
      * Lists all Camera models.
      * @return mixed
      */
-    
     public function actionIndex() {
         if (!Yii::$app->user->isGuest) {
             $this->redirect(['mycamera']);
         } else {
             $this->redirect(['site/login']);
+        }
+    }
+    
+    /**
+     * Deletes an existing Camera model.
+     * If deletion is successful, the browser will be redirected to the 'mycamera' page.
+     *
+     * @param integer $id
+     * @return mixed
+     */
+    public function actionDelete($id)
+    {
+        $this->findModel($id)->delete();
+        return $this->redirect(['mycamera']);
+    }
+    
+    /**
+     * Updates an existing Camera model.
+     * If update is successful, the browser will be redirected to the 'mycamera' page.
+     *
+     * @param integer $id
+     * @return mixed
+     */
+    public function actionUpdate($id)
+    {
+        $model = $this->findModel($id);
+        
+        if ($model->load(Yii::$app->request->post()) && $model->save()) {
+            return $this->redirect(['mycamera']);
+        } else {
+            return $this->render('update', [
+                'model' => $model
+            ]);
         }
     }
     
