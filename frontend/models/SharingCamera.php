@@ -5,12 +5,18 @@ namespace frontend\models;
 use yii\base\Model;
 use yii\data\ActiveDataProvider;
 use common\models\SharedCamera;
+use Yii;
 
 /**
  * SharingCamera represents the model behind the search form about `common\models\SharedCamera`.
  */
 class SharingCamera extends SharedCamera
 {
+    
+    public function attributes() {
+        return array_merge(parent::attributes(),['camera.nickname','camera.password']);
+    }
+    
     /**
      * @inheritdoc
      */
@@ -18,6 +24,7 @@ class SharingCamera extends SharedCamera
     {
         return [
             [['camera_id', 'user_id','status','update_time'], 'integer'],
+            [['camera.nickname','camera.password'], 'safe'],
         ];
     }
     
@@ -58,11 +65,22 @@ class SharingCamera extends SharedCamera
         // grid filtering conditions
         $query->andFilterWhere([
             'user_id' => $userId,
+            'camera_id' => $this->camera_id,
+            'status' => $this->status,
+            'update_time' => $this->update_time,
         ]);
         
-        $query->andFilterWhere(['like', 'camera_id', $this->camera_id])
-        ->andFilterWhere(['like', 'status', $this->status])
-        ->andFilterWhere(['like', 'update_time', $this->update_time]);
+        $query->join('INNER JOIN', 'camera', 'shared_camera.camera_id = camera.id');
+        $query->andFilterWhere(['like', 'camera.nickname', $this->getAttribute('camera.nickname')])
+            ->andFilterWhere(['like', 'camera.password', $this->getAttribute('camera.password')]);
+        $dataProvider->sort->attributes['camera.nickname'] = [
+            'asc' => ['camera.nickname' => SORT_ASC],
+            'desc' => ['camera.nickname' => SORT_DESC],
+        ];
+        $dataProvider->sort->attributes['camera.password'] = [
+            'asc' => ['camera.password' => SORT_ASC],
+            'desc' => ['camera.password' => SORT_DESC],
+        ];
         
         return $dataProvider;
     }

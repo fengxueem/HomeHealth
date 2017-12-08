@@ -37,7 +37,10 @@ class CameraController extends Controller
                 'actions' => [
                     'delete' => [
                         'POST'
-                    ]
+                    ],
+                    'deleteshare' => [
+                        'POST'
+                    ],
                 ]
             ]
         ];
@@ -56,6 +59,18 @@ class CameraController extends Controller
     }
     
     /**
+     * Approve a Camera sharing request.
+     *
+     * @param integer $id
+     * @return mixed
+     */
+    public function actionApprove($camera_id, $user_id)
+    {
+        SharedCamera::find()->where(['camera_id' => $camera_id, 'user_id' => $user_id])->one()->approve();
+        return $this->redirect(['otherscamera']);
+    }
+    
+    /**
      * Deletes an existing Camera model.
      * If deletion is successful, the browser will be redirected to the 'mycamera' page.
      *
@@ -66,6 +81,32 @@ class CameraController extends Controller
     {
         $this->findModel($id)->delete();
         return $this->redirect(['mycamera']);
+    }
+    
+    /**
+     * Delete an existing sharing Camera model.
+     * If deletion is successful, the browser will be redirected to the 'sharing camera' page.
+     *
+     * @param integer $id
+     * @return mixed
+     */
+    public function actionDeleteshare($camera_id, $user_id)
+    {
+        SharedCamera::find()->where(['camera_id' => $camera_id, 'user_id' => $user_id])->one()->delete();
+        return $this->redirect(['otherscamera']);
+    }
+    
+    /**
+     * Reject an existing sharing Camera model.
+     * If deletion is successful, the browser will be redirected to the 'sharing camera' page.
+     *
+     * @param integer $id
+     * @return mixed
+     */
+    public function actionReject($camera_id, $user_id)
+    {
+        SharedCamera::find()->where(['camera_id' => $camera_id, 'user_id' => $user_id])->one()->reject();
+        return $this->redirect(['otherscamera']);
     }
     
     /**

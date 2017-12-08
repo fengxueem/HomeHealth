@@ -47,10 +47,10 @@ class Camera extends \yii\db\ActiveRecord
     {
         return [
             'id' => 'ID',
-            'url' => '链接',
-            'nickname' => '名称',
-            'password' => '密码',
-            'owner_id' => '所有人',
+            'url' => Yii::t('yii', 'Url'),
+            'nickname' => Yii::t('yii', 'Nickname'),
+            'password' => Yii::t('yii', 'Password'),
+            'owner_id' => Yii::t('yii', 'Owner'),
         ];
     }
     
