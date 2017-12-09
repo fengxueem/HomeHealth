@@ -19,7 +19,7 @@ $this->title = Yii::t('yii', 'Sharing Camera');
                     if ($model->status != 1) {
                         return Html::a(Yii::t('yii', $model->camera->nickname), '#',['class' => 'btn disabled']);
                     } else {
-                        return Html::a(Yii::t('yii', $model->camera->nickname), 'http://' . $model->camera->url, ['class' => 'btn', 'target' => '_blank']);
+                        return Html::a(Yii::t('yii', $model->camera->nickname), $model->camera->url, ['class' => 'btn', 'target' => '_blank']);
                     }
                 },
             ],
