@@ -4,8 +4,9 @@ CREATE TABLE `camera` (
   `url` varchar(255) COLLATE utf8_unicode_ci NOT NULL,
   `nickname` varchar(50) COLLATE utf8_unicode_ci NOT NULL,
   `password` char(8) COLLATE utf8_unicode_ci NOT NULL,
-  `owner_id` int(10) unsigned DEFAULT NULL,
+  `owner_id` int(10) unsigned NOT NULL,
   PRIMARY KEY (`id`),
+  UNIQUE KEY `url` (`url`),
   KEY `FK_ID` (`owner_id`),
   CONSTRAINT `FK_ID` FOREIGN KEY (`owner_id`) REFERENCES `user` (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
@@ -20,7 +21,11 @@ CREATE TABLE `admin` (
  `auth_key` varchar(32) COLLATE utf8_unicode_ci NOT NULL,
  `password_hash` varchar(255) COLLATE utf8_unicode_ci NOT NULL,
  `password_reset_token` varchar(255) COLLATE utf8_unicode_ci DEFAULT NULL,
- PRIMARY KEY (`id`)
+ PRIMARY KEY (`id`),
+ UNIQUE KEY `username` (`username`),
+ UNIQUE KEY `email` (`email`),
+ UNIQUE KEY `phone` (`phone`),
+ UNIQUE KEY `password_reset_token` (`password_reset_token`)
 ) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
 
 CREATE TABLE `shared_camera` (
@@ -62,7 +67,48 @@ CREATE TABLE `user` (
  PRIMARY KEY (`id`),
  UNIQUE KEY `username` (`username`),
  UNIQUE KEY `email` (`email`),
+ UNIQUE KEY `phone` (`phone`),
  UNIQUE KEY `password_reset_token` (`password_reset_token`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
+
+CREATE TABLE `occasion` (
+  `id` int(10) unsigned NOT NULL AUTO_INCREMENT,
+  `start_time` int(11) unsigned NOT NULL,
+  `end_time` int(11) unsigned DEFAULT NULL,
+  `illness` varchar(255) COLLATE utf8_unicode_ci NOT NULL,
+  `hospital` varchar(255) COLLATE utf8_unicode_ci NOT NULL,
+  `user_id` int(10) unsigned NOT NULL,
+  PRIMARY KEY (`id`),
+  UNIQUE KEY `occurance` (`start_time`,`illness`,`hospital`,`user_id`),
+  KEY `FK_USER` (`user_id`),
+  CONSTRAINT `FK_USER` FOREIGN KEY (`user_id`) REFERENCES `user` (`id`) ON DELETE CASCADE
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
+
+
+CREATE TABLE `physiological_data_type` (
+  `id` int(10) unsigned NOT NULL AUTO_INCREMENT,
+  `unit` varchar(150) COLLATE utf8_unicode_ci NOT NULL,
+  `name` varchar(150) COLLATE utf8_unicode_ci NOT NULL,
+  `description` varchar(255) COLLATE utf8_unicode_ci DEFAULT NULL,
+  `range_top` float DEFAULT NULL,
+  `range_bottom` float DEFAULT NULL,
+  PRIMARY KEY (`id`),
+  UNIQUE KEY `type` (`unit`,`name`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
+
+CREATE TABLE `physiological_data_entry` (
+  `id` int(10) unsigned NOT NULL AUTO_INCREMENT,
+  `time` int(11) unsigned NOT NULL,
+  `update_time` int(11) unsigned NOT NULL,
+  `value` float NOT NULL,
+  `type_id` int(10) unsigned NOT NULL,
+  `occasion_id` int(10) unsigned DEFAULT NULL,
+  PRIMARY KEY (`id`),
+  KEY `FK_type`(`type_id`),
+  KEY `FK_occasion` (`occasion_id`),
+  UNIQUE KEY `occurance` (`time`,`occasion_id`,`type_id`),
+  CONSTRAINT `FK_type` FOREIGN KEY (`type_id`) REFERENCES `physiological_data_type` (`id`) ON DELETE CASCADE,
+  CONSTRAINT `FK_occasion` FOREIGN KEY (`occasion_id`) REFERENCES `occasion` (`id`) ON DELETE CASCADE
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
 
 -- alter existed tables
