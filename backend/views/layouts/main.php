@@ -37,10 +37,10 @@ AppAsset::register($this);
         ],
     ]);
     $menuItems = [
+        ['label' => '生理指标设置', 'url' => ['/physiological-data/index']],
         ['label' => '管理员设置', 'url' => ['/admin/index']],
         ['label' => '用户设置', 'url' => ['/user/index']],
         ['label' => '摄像头设置', 'url' => ['/camera/index']],
-        
     ];
     if (Yii::$app->user->isGuest) {
         $menuItems[] = ['label' => 'Login', 'url' => ['/site/login']];
