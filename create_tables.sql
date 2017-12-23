@@ -101,13 +101,16 @@ CREATE TABLE `physiological_data_entry` (
   `time` int(11) unsigned NOT NULL,
   `update_time` int(11) unsigned NOT NULL,
   `value` float NOT NULL,
+  `user_id` int(10) unsigned NOT NULL,
   `type_id` int(10) unsigned NOT NULL,
   `occasion_id` int(10) unsigned DEFAULT NULL,
   PRIMARY KEY (`id`),
   KEY `FK_type`(`type_id`),
+  KEY `FK_user_of_entry`(`user_id`),
   KEY `FK_occasion` (`occasion_id`),
   UNIQUE KEY `occurance` (`time`,`occasion_id`,`type_id`),
   CONSTRAINT `FK_type` FOREIGN KEY (`type_id`) REFERENCES `physiological_data_type` (`id`) ON DELETE CASCADE,
+  CONSTRAINT `FK_user_of_entry` FOREIGN KEY (`user_id`) REFERENCES `user` (`id`) ON DELETE CASCADE,
   CONSTRAINT `FK_occasion` FOREIGN KEY (`occasion_id`) REFERENCES `occasion` (`id`) ON DELETE CASCADE
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
 
