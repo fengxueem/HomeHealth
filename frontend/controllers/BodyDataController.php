@@ -2,11 +2,9 @@
 
 namespace frontend\controllers;
 
-use common\models\PhysiologicalDataEntry;
 use frontend\models\QuickRecord;
 use Yii;
 use yii\web\Controller;
-use yii\web\NotFoundHttpException;
 
 /**
  * CameraController implements the CRUD actions for Camera model.
@@ -28,14 +26,17 @@ class BodyDataController extends Controller
     
     public function actionAdd() {
         $model = new QuickRecord();
-        $model->setUserId(Yii::$app->user->identity->getId());
+        $userId = Yii::$app->user->identity->getId();
+        $model->setUserId($userId);
         
         if ($model->load(Yii::$app->request->post()) && $entry = $model->signup()) {
             return $this->redirect(['add']);
         } else {
             return $this->render('add', [
-                'model' => $model
+                'model' => $model,
+                'id' => $userId,
             ]);
         }
     }
+    
 }
