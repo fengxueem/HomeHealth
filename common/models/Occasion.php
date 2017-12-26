@@ -35,6 +35,7 @@ class Occasion extends \yii\db\ActiveRecord
         return [
             [['start_time', 'illness', 'hospital', 'user_id'], 'required'],
             [['start_time', 'end_time', 'user_id'], 'integer'],
+            ['end_time', 'compare', 'compareAttribute' => 'start_time', 'operator' => '>=', 'type' => 'number'],
             [['illness', 'hospital'], 'string', 'max' => 255],
             [['start_time', 'illness', 'hospital', 'user_id'], 'unique', 'targetAttribute' => ['start_time', 'illness', 'hospital', 'user_id'], 'message' => 'The combination of Start Time, Illness, Hospital and User ID has already been taken.'],
             [['user_id'], 'exist', 'skipOnError' => true, 'targetClass' => User::className(), 'targetAttribute' => ['user_id' => 'id']],

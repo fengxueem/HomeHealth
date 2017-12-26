@@ -110,13 +110,13 @@ AppAsset::addCSS($this, Yii::$app->request->baseUrl . "/css/camera/main.css");
 					<nav class="d-sm-block sidebar">
 						<ul class="nav nav-pills flex-column">
 							<li class="nav-item">
-								<?= Html::a(Yii::t('yii', 'Quick Record'), ['add'], ['class' => 'nav-link']) ?>
+								<?= Html::a(Yii::t('yii', 'Quick Record'), Url::to(['/body-data/add']), ['class' => 'nav-link']) ?>
 							</li>
 							<li class="nav-item">
-								<?= Html::a(Yii::t('yii', 'Types'), ['findbytype'], ['class' => 'nav-link']) ?>
+								<?= Html::a(Yii::t('yii', 'Types'), Url::to(['/types/index']), ['class' => 'nav-link']) ?>
 							</li>
 							<li class="nav-item">
-								<?= Html::a(Yii::t('yii', 'Occasions'), ['findbyoccasion'], ['class' => 'nav-link']) ?>
+								<?= Html::a(Yii::t('yii', 'Occasions'), Url::to(['/occasion/index']), ['class' => 'nav-link']) ?>
 							</li>
 						</ul>
 					</nav>
