@@ -3,16 +3,18 @@
 /* @var $this \yii\web\View */
 /* @var $content string */
 use yii\helpers\Html;
+use yii\apidoc\templates\bootstrap\SideNavWidget;
 use yii\bootstrap\Nav;
 use yii\bootstrap\NavBar;
-use yii\widgets\Breadcrumbs;
 use frontend\assets\AppAsset;
 use common\models\Developer;
 use common\widgets\Alert;
 use yii\helpers\Url;
+use yii\base\Widget;
+use common\models\PhysiologicalDataType;
 
 AppAsset::register($this);
-AppAsset::addCSS($this, Yii::$app->request->baseUrl . "/css/camera/main.css");
+AppAsset::addCSS($this, Yii::$app->request->baseUrl . "/css/layouts/bodydata.css");
 ?>
 <?php $this->beginPage() ?>
 <!DOCTYPE html>
@@ -65,31 +67,21 @@ AppAsset::addCSS($this, Yii::$app->request->baseUrl . "/css/camera/main.css");
                 ]
             ]
         ];
-        // $menuItems[] = '<li>'
-        // . Html::beginForm(['/site/logout'], 'post')
-        // . Html::submitButton(
-        // 'Logout (' . Yii::$app->user->identity->username . ')',
-        // ['class' => 'btn btn-link logout']
-        // )
-        // . Html::endForm()
-        // . '</li>';
         $menuItems[] = '<li class="dropdown">
                             <a class="dropdown-toggle" href="#" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">' . Yii::$app->user->identity->username . '
                                 <span class="caret"></span>
                             </a>
                             <ul class="dropdown-menu">' . Html::a("", "#", [
-            'class' => 'dropdown-toggle',
-            'data-toggle' => 'dropdown',
-            'role' => 'button',
-            'aria-haspopup' => 'true',
-            'aria-expanded' => 'false'
-        ]) . '<li>' . Html::a(Yii::t('yii', 'Setting'), Url::to([
-            '/user/index'
-        ])) . '</li>
+                                    'class' => 'dropdown-toggle',
+                                    'data-toggle' => 'dropdown',
+                                    'role' => 'button',
+                                    'aria-haspopup' => 'true',
+                                    'aria-expanded' => 'false'
+                                ]) . '<li>' . Html::a(Yii::t('yii', 'Setting'), Url::to([
+                                    '/user/index'
+                                ])) . '</li>
                                 <li class="divider" role="separator"></li>
-                                <li>' . Html::a(Yii::t('yii', 'Logout'), Url::to([
-            '/site/logout'
-        ])) . '</li>
+                                <li>' . Html::a(Yii::t('yii', 'Logout'), Url::to(['/site/logout'])) . '</li>
                             </ul>
                         </li>';
     }
@@ -107,19 +99,33 @@ AppAsset::addCSS($this, Yii::$app->request->baseUrl . "/css/camera/main.css");
         <div class="body-content">
 			<div class="row">
 				<div class="col-sm-3 col-md-2">
-					<nav class="d-sm-block sidebar">
-						<ul class="nav nav-pills flex-column">
-							<li class="nav-item">
-								<?= Html::a(Yii::t('yii', 'Quick Record'), Url::to(['/body-data/add']), ['class' => 'nav-link']) ?>
-							</li>
-							<li class="nav-item">
-								<?= Html::a(Yii::t('yii', 'Types'), Url::to(['/types/index']), ['class' => 'nav-link']) ?>
-							</li>
-							<li class="nav-item">
-								<?= Html::a(Yii::t('yii', 'Occasions'), Url::to(['/occasion/index']), ['class' => 'nav-link']) ?>
-							</li>
-						</ul>
-					</nav>
+					<?php
+					   $types = PhysiologicalDataType::find()->select(['name'])->indexBy('id')->column();
+					   $type_items = [];
+					   foreach ($types as $i => $type_name) {
+					       $type_items[] = [
+					           'label' => $type_name,
+					           'url' => Url::to(['/type/view', 'id' => $i]),
+					       ];
+					   }
+					   echo SideNavWidget::widget([
+					       'items' => [
+    					       [
+    					           'label' => 'Quick Record',
+    					           'url' => Url::to(['/body-data/add']),
+    					       ],
+					           [
+					               'label' => 'Occasions',
+					               'url' => Url::to(['/occasion/index']),
+					           ],
+					           [
+					               'label' => 'Types',
+					               'items' => $type_items,
+					           ],
+					       ],
+					       'options' => ['class' => 'nav-pills'],
+					   ]);
+					?>
 				</div>
 				<div class="col-sm-9 col-md-10">
 					<?= $content ?>
