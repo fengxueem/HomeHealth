@@ -38,6 +38,7 @@ class PhysiologicalDataEntry extends \yii\db\ActiveRecord
             [['time', 'value', 'user_id', 'type_id'], 'required'],
             [['update_time', 'time', 'user_id', 'type_id', 'occasion_id'], 'integer'],
             [['value'], 'number'],
+            ['occasion_id', 'default', 'value' => null],
             [['time', 'occasion_id', 'type_id'], 'unique', 'targetAttribute' => ['time', 'occasion_id', 'type_id'], 'message' => 'The combination of Time, Type ID and Occasion ID has already been taken.'],
             [['occasion_id'], 'exist', 'skipOnError' => true, 'targetClass' => Occasion::className(), 'targetAttribute' => ['occasion_id' => 'id']],
             [['type_id'], 'exist', 'skipOnError' => true, 'targetClass' => PhysiologicalDataType::className(), 'targetAttribute' => ['type_id' => 'id']],
