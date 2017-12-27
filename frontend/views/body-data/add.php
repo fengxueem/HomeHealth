@@ -4,7 +4,6 @@ use yii\widgets\ActiveForm;
 use common\models\PhysiologicalDataType;
 use kartik\datetime\DateTimePicker;
 use common\models\Occasion;
-use yii\helpers\ArrayHelper;
 
 /* @var $this yii\web\View */
 /* @var $model common\models\PhysiologicalDataEntry */
@@ -42,7 +41,8 @@ $this->params['breadcrumbs'][] = $this->title;
 
     <?= $form->field($model, 'type_id')->dropDownList(PhysiologicalDataType::find()->select(['name'])->indexBy('id')->column())?>
 
-    <?= $form->field($model, 'occasion_id')->dropDownList(ArrayHelper::merge(['id' => null], Occasion::find()->select(["CONCAT(illness, ' ; ', hospital, ' ; ', FROM_UNIXTIME(start_time, '%Y-%m-%d %H:%i'))"])->where(['user_id' => $id])->indexBy('id')->column())) ?>
+    <!-- occasion could be -->
+    <?= $form->field($model, 'occasion_id')->dropDownList(Occasion::findOccasionsOfUserInArray($id))?>
 
     <div class="form-group">
         <?= Html::submitButton('Create', ['class' => 'btn btn-success']) ?>

@@ -3,6 +3,7 @@
 namespace common\models;
 
 use Yii;
+use yii\helpers\ArrayHelper;
 
 /**
  * This is the model class for table "occasion".
@@ -71,5 +72,14 @@ class Occasion extends \yii\db\ActiveRecord
     public function getPhysiologicalDataEntries()
     {
         return $this->hasMany(PhysiologicalDataEntry::className(), ['occasion_id' => 'id']);
+    }
+    
+    /**
+     * find all occasions created by a user in addtion with the default one 'null'
+     * 
+     * @return array
+     */
+    public static function findOccasionsOfUserInArray($user_id) {
+        return ArrayHelper::merge([null => ''], Occasion::find()->select(["CONCAT(illness, ' ; ', hospital, ' ; ', FROM_UNIXTIME(start_time, '%Y-%m-%d %H:%i'))"])->where(['user_id' => $user_id])->indexBy('id')->column());
     }
 }
