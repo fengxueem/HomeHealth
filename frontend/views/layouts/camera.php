@@ -12,7 +12,7 @@ use common\widgets\Alert;
 use yii\helpers\Url;
 
 AppAsset::register($this);
-AppAsset::addCSS($this, Yii::$app->request->baseUrl . "/css/camera/main.css");
+AppAsset::addCSS($this, Yii::$app->request->baseUrl . "/css/layouts/camera.css");
 ?>
 <?php $this->beginPage() ?>
 <!DOCTYPE html>
@@ -65,14 +65,6 @@ AppAsset::addCSS($this, Yii::$app->request->baseUrl . "/css/camera/main.css");
                 ]
             ]
         ];
-        // $menuItems[] = '<li>'
-        // . Html::beginForm(['/site/logout'], 'post')
-        // . Html::submitButton(
-        // 'Logout (' . Yii::$app->user->identity->username . ')',
-        // ['class' => 'btn btn-link logout']
-        // )
-        // . Html::endForm()
-        // . '</li>';
         $menuItems[] = '<li class="dropdown">
                             <a class="dropdown-toggle" href="#" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">' . Yii::$app->user->identity->username . '
                                 <span class="caret"></span>
