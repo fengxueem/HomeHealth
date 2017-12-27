@@ -38,7 +38,7 @@ class Occasion extends \yii\db\ActiveRecord
             [['start_time', 'end_time', 'user_id'], 'integer'],
             ['end_time', 'compare', 'compareAttribute' => 'start_time', 'operator' => '>=', 'type' => 'number'],
             [['illness', 'hospital'], 'string', 'max' => 255],
-            [['start_time', 'illness', 'hospital', 'user_id'], 'unique', 'targetAttribute' => ['start_time', 'illness', 'hospital', 'user_id'], 'message' => 'The combination of Start Time, Illness, Hospital and User ID has already been taken.'],
+            [['start_time', 'illness', 'hospital', 'user_id'], 'unique', 'targetAttribute' => ['start_time', 'illness', 'hospital', 'user_id'], 'message' => Yii::t('yii', 'Already had a record of this Time, Illness and Hospital.')],
             [['user_id'], 'exist', 'skipOnError' => true, 'targetClass' => User::className(), 'targetAttribute' => ['user_id' => 'id']],
         ];
     }

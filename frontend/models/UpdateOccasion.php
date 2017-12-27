@@ -31,7 +31,7 @@ class UpdateOccasion extends Model
             ['str_end_time', 'compare', 'compareAttribute' => 'expected_start', 'operator' => '>', 'enableClientValidation' => false, 'message' => Yii::t('yii', 'Unvalid Date')],
             ['str_start_time', 'compare', 'compareAttribute' => 'expected_end', 'operator' => '<', 'enableClientValidation' => false, 'message' => Yii::t('yii', 'Unvalid Date')],
             [['illness', 'hospital'], 'string', 'max' => 255],
-            [['start_time', 'illness', 'hospital', 'user_id'], 'unique', 'targetAttribute' => ['start_time', 'illness', 'hospital', 'user_id'], 'message' => Yii::t('yii', 'The combination of Start Time, Illness, Hospital and User has already been taken.')],
+            [['str_start_time', 'illness', 'hospital'], 'unique', 'targetClass' => Occasion::className(), 'targetAttribute' => ['start_time', 'illness', 'hospital', 'user_id'], 'message' => Yii::t('yii', 'Already had a record of this Time, Illness and Hospital.')],
         ];
     }
     
@@ -93,9 +93,5 @@ class UpdateOccasion extends Model
             $this->addErrors($this->occasion->getErrors());
             return null;
         }
-    }
-    
-    public function find() {
-        return Occasion::find();
     }
 }

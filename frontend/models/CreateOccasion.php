@@ -28,7 +28,7 @@ class CreateOccasion extends Model
             [['str_start_time', 'illness', 'hospital'], 'required'],
             ['str_end_time', 'compare', 'compareAttribute' => 'str_start_time', 'operator' => '>='],
             [['illness', 'hospital'], 'string', 'max' => 255],
-            [['start_time', 'illness', 'hospital', 'user_id'], 'unique', 'targetAttribute' => ['start_time', 'illness', 'hospital', 'user_id'], 'message' => \Yii::t('yii', 'The combination of Start Time, Illness, Hospital and User has already been taken.')],
+            [['str_start_time', 'illness', 'hospital'], 'unique', 'targetClass' => Occasion::className(), 'targetAttribute' => ['start_time', 'illness', 'hospital', 'user_id'], 'message' => \Yii::t('yii', 'Already had a record of this Time, Illness and Hospital.')],
         ];
     }
     
@@ -67,9 +67,5 @@ class CreateOccasion extends Model
         $occasion->user_id = $this->user_id;
         
         return $occasion->save() ? $occasion : null;
-    }
-    
-    public function find() {
-        return Occasion::find();
     }
 }

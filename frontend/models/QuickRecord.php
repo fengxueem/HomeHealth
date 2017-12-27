@@ -31,8 +31,10 @@ class QuickRecord extends Model
             ['str_time', 'compare', 'compareValue' => date('Y-m-d H:i', time()), 'operator' => '<=', 'type' => 'string'],
             ['str_time', 'compare', 'compareAttribute' => 'str_start_time','operator' => '>=', 'enableClientValidation' => false, 'message' => Yii::t('yii', 'Unvalid Date')],
             ['str_time', 'compare', 'compareAttribute' => 'str_end_time','operator' => '<=', 'enableClientValidation' => false, 'message' => Yii::t('yii', 'Unvalid Date')],
-            [['type_id'], 'integer'],
+            [['type_id', 'occasion_id'], 'integer'],
             [['value'], 'number'],
+            ['occasion_id', 'default', 'value' => null],
+            [['str_time', 'type_id', 'occasion_id'], 'unique', 'targetClass' => PhysiologicalDataEntry::className(),'targetAttribute' => ['time', 'occasion_id', 'type_id'], 'message' => \Yii::t('yii', 'Already had a record of this Time, Type and Occasion.')],
         ];
     }
     
